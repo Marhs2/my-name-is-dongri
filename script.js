@@ -114,9 +114,9 @@ document.addEventListener("keydown", (event) => {
   }
 
   if (event.code === "ArrowUp" || event.code === "KeyW") setDirection(0, -1);
-  if (event.code === "ArrowDown" || event.code === "KeyS") setDirection(0, 1);
-  if (event.code === "ArrowLeft" || event.code === "KeyA") setDirection(-1, 0);
-  if (event.code === "ArrowRight" || event.code === "KeyD") setDirection(1, 0);
+  else if (event.code === "ArrowDown" || event.code === "KeyS") setDirection(0, 1);
+  else if (event.code === "ArrowLeft" || event.code === "KeyA") setDirection(-1, 0);
+  else if (event.code === "ArrowRight" || event.code === "KeyD") setDirection(1, 0);
 });
 
 resetGame();
