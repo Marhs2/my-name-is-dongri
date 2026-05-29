@@ -31,7 +31,8 @@ function spawnFood() {
 }
 
 function resetGame() {
-  snake = [{ x: 10, y: 10 }];
+  const startCell = Math.floor(tileCount / 2);
+  snake = [{ x: startCell, y: startCell }];
   direction = { x: 1, y: 0 };
   nextDirection = direction;
   score = 0;
@@ -39,6 +40,8 @@ function resetGame() {
   scoreEl.textContent = "0";
   messageEl.textContent = "";
   spawnFood();
+  clearInterval(loopId);
+  loopId = setInterval(step, tickIntervalMs);
 }
 
 function drawCell(x, y, color) {
@@ -68,6 +71,7 @@ function step() {
   if (hitWall || hitSelf) {
     gameOver = true;
     messageEl.textContent = "Game over! Press Space to restart.";
+    clearInterval(loopId);
     return;
   }
 
@@ -92,20 +96,17 @@ function setDirection(x, y) {
 }
 
 document.addEventListener("keydown", (event) => {
-  const key = event.key.toLowerCase();
-
   if (event.code === "Space" && gameOver) {
     resetGame();
     draw();
     return;
   }
 
-  if (key === "arrowup" || key === "w") setDirection(0, -1);
-  if (key === "arrowdown" || key === "s") setDirection(0, 1);
-  if (key === "arrowleft" || key === "a") setDirection(-1, 0);
-  if (key === "arrowright" || key === "d") setDirection(1, 0);
+  if (event.code === "ArrowUp" || event.code === "KeyW") setDirection(0, -1);
+  if (event.code === "ArrowDown" || event.code === "KeyS") setDirection(0, 1);
+  if (event.code === "ArrowLeft" || event.code === "KeyA") setDirection(-1, 0);
+  if (event.code === "ArrowRight" || event.code === "KeyD") setDirection(1, 0);
 });
 
 resetGame();
 draw();
-loopId = setInterval(step, tickIntervalMs);
