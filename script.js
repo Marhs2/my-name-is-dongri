@@ -94,7 +94,7 @@ function setDirection(x, y) {
 document.addEventListener("keydown", (event) => {
   const key = event.key.toLowerCase();
 
-  if (key === " " && gameOver) {
+  if (event.code === "Space" && gameOver) {
     resetGame();
     draw();
     return;
