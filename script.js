@@ -15,19 +15,25 @@ let score;
 let gameOver;
 let loopId;
 
-function randomCell() {
-  return {
-    x: Math.floor(Math.random() * tileCount),
-    y: Math.floor(Math.random() * tileCount),
-  };
-}
-
 function spawnFood() {
-  let nextFood = randomCell();
-  while (snake.some((part) => part.x === nextFood.x && part.y === nextFood.y)) {
-    nextFood = randomCell();
+  const emptyCells = [];
+
+  for (let x = 0; x < tileCount; x += 1) {
+    for (let y = 0; y < tileCount; y += 1) {
+      if (!snake.some((part) => part.x === x && part.y === y)) {
+        emptyCells.push({ x, y });
+      }
+    }
   }
-  food = nextFood;
+
+  if (emptyCells.length === 0) {
+    gameOver = true;
+    messageEl.textContent = "You win! Press Space to restart.";
+    clearInterval(loopId);
+    return;
+  }
+
+  food = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 }
 
 function resetGame() {
@@ -89,13 +95,18 @@ function step() {
 }
 
 function setDirection(x, y) {
-  if (direction.x === -x && direction.y === -y) {
+  if (nextDirection.x === -x && nextDirection.y === -y) {
     return;
   }
   nextDirection = { x, y };
 }
 
 document.addEventListener("keydown", (event) => {
+  const movementKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+  if (movementKeys.includes(event.code)) {
+    event.preventDefault();
+  }
+
   if (event.code === "Space" && gameOver) {
     resetGame();
     draw();
