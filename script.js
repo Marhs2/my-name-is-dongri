@@ -5,7 +5,7 @@ const messageEl = document.getElementById("message");
 
 const grid = 20;
 const tileCount = canvas.width / grid;
-const speedMs = 120;
+const tickIntervalMs = 120;
 
 let snake;
 let direction;
@@ -108,5 +108,4 @@ document.addEventListener("keydown", (event) => {
 
 resetGame();
 draw();
-clearInterval(loopId);
-loopId = setInterval(step, speedMs);
+loopId = setInterval(step, tickIntervalMs);
